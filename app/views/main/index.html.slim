@@ -1,0 +1,25 @@
+div(ng-controller="SchedulerController as sCtrl" ng-app="cp")
+  h1 The ultimate scheduler thing
+  p first, give us the list of childrens who will be attending this week.
+  p CSV format please, of the form:
+  p name,age,pickup details
+  textarea(ng-model="sCtrl.kids")
+  div(ng-show="sCtrl.kids.length > 0")
+    p cool, now tell me how many counselors you've got this week
+    input(type="number" ng-model="counselorCount" value="0")
+    div(ng-show="counselorCount > 0")
+      p
+        | cool, now gimme their deets
+        button(ng-click="sCtrl.scrambleCounselors()") Scramble
+      div(ng-repeat="i in sCtrl.getNumber(counselorCount) track by $index")
+        label Name:
+        input(type="text" ng-model="sCtrl.counselors[$index]")
+      p and tell me how many cabins you want to use:
+      input(type="number" ng-model="sCtrl.cabinCount")
+      div(ng-repeat="i in sCtrl.getNumber(sCtrl.cabinCount) track by $index")
+        p Cabin {{$index}} has {{sCtrl.getCounselors($index)}} as counselors
+        table
+          tr(ng-repeat="kid in sCtrl.getKids($index)")
+            td() {{kid[0]}}
+            td() {{kid[1]}}
+            td() {{kid[2]}}
