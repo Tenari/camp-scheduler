@@ -1,0 +1,47 @@
+div(ng-controller="SchedulerController as sCtrl" ng-app="cpCounselorPrint")
+  button(style="float:right" ng-click="sCtrl.printView = sCtrl.printView ? false : true") Show/Hide
+  div(ng-hide="sCtrl.printView")
+    h1 The ultimate scheduler thing
+    p first, give us the list of childrens who will be attending this week.
+    p CSV format please, of the form:
+    p cabin,counselors,firstname,lastname,age,skill1,skill2,skill3
+    textarea(ng-model="sCtrl.kids")
+    button(ng-click="sCtrl.readKidsCSV()") click to read in kids
+    p and the list of counselors who will be teaching classes this week.
+    p CSV format like:
+    p counselorName,cabin,skill1,skill2,skill3
+    p where 'na' is substituted for slots that don't apply (Daniel,na,na,canoeing,fishing)
+    textarea(ng-model="sCtrl.counselors")
+    button(ng-click="sCtrl.readCounselorsCSV()") click to read in counselors
+  div(ng-show="sCtrl.counselors.length >0")
+    p cool, now pick a counselor to see
+    select(ng-model="sCtrl.selectedCounselor")
+      option(ng-repeat="counselor in sCtrl.counselorsCSV" ng-value="$index") {{counselor[0]}}
+    div(ng-show="sCtrl.selectedCounselor")
+      h4() {{sCtrl.counselorsCSV[sCtrl.selectedCounselor][0]}}{{sCtrl.counselorsCSV[sCtrl.selectedCounselor][1] === 'na' ? '' : ' -- cabin '+sCtrl.counselorsCSV[sCtrl.selectedCounselor][1]}}
+      table(ng-if="sCtrl.counselorsCSV[sCtrl.selectedCounselor][1] !== 'na'")
+        tr
+          th Cabin
+          th Counselors
+          th First Name
+          th Last Name
+          th Age
+          th Skill 1
+          th Skill 2
+          th Skill 3
+        tr(ng-repeat="kid in sCtrl.cabinKids(sCtrl.counselorsCSV[sCtrl.selectedCounselor][1])")
+          td(ng-repeat="i in kid.slice(0,8)") {{i}}
+      div(ng-repeat="skill in sCtrl.counselorsCSV[sCtrl.selectedCounselor].slice(2,5) track by $index" ng-if="skill !== 'na'")
+        h4() Skill {{$index+1}}
+        table()
+          tr
+            th Cabin
+            th Counselors
+            th First Name
+            th Last Name
+            th Age
+            th Skill 1
+            th Skill 2
+            th Skill 3
+          tr(ng-repeat="kid in sCtrl.skillKids($index,skill)")
+            td(ng-repeat="i in kid.slice(0,8)") {{i}}

@@ -6,12 +6,12 @@ div(ng-controller="SchedulerController as sCtrl" ng-app="cp")
   textarea(ng-model="sCtrl.kids")
   div(ng-show="sCtrl.kids.length > 0")
     p cool, now tell me how many counselors you've got this week
-    input(type="number" ng-model="counselorCount" value="0")
-    div(ng-show="counselorCount > 0")
+    input(type="number" ng-model="sCtrl.counselorCount")
+    div(ng-show="sCtrl.counselorCount > 0")
       p
         | cool, now gimme their deets
         button(ng-click="sCtrl.scrambleCounselors()") Scramble
-      div(ng-repeat="i in sCtrl.getNumber(counselorCount) track by $index")
+      div(ng-repeat="i in sCtrl.getNumber(sCtrl.counselorCount) track by $index")
         label Name:
         input(type="text" ng-model="sCtrl.counselors[$index]")
       p and tell me how many cabins you want to use:

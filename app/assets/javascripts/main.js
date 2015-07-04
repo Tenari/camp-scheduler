@@ -16,6 +16,7 @@
     vm.getKids = getKids;
     vm.kids = '';
     vm.counselors = [];
+    vm.counselorCount = 0;
     vm.cabinCount = 0;
 
     function getNumber(n){
@@ -23,7 +24,11 @@
     }
 
     function getCounselors(cabinIndex) {
-      return vm.counselors[cabinIndex*2] + ' and ' + vm.counselors[(cabinIndex*2)+1];
+      if (vm.counselorCount < vm.cabinCount * 2) {
+        return vm.counselors[cabinIndex] + (vm.counselors[cabinIndex*2] ? ' and ' + vm.counselors[(cabinIndex*2)] : '');
+      } else {
+        return vm.counselors[cabinIndex*2] + ' and ' + vm.counselors[(cabinIndex*2)+1];
+      }
     }
 
     function scrambleCounselors() {
@@ -41,9 +46,11 @@
         return arr[1];
       });
 
-      var kidsPerCabin = csv.length / vm.cabinCount;
-      console.log(csv, kidsPerCabin, cabinIndex);
-      return csv.slice(parseInt(cabinIndex*kidsPerCabin), parseInt(cabinIndex*kidsPerCabin)+parseInt(kidsPerCabin));
+      var kidsPerCabin = parseInt(csv.length / vm.cabinCount);
+      if (cabinIndex == vm.cabinCount - 1)
+        return csv.slice(cabinIndex*kidsPerCabin);
+      else
+        return csv.slice(cabinIndex*kidsPerCabin, (cabinIndex*kidsPerCabin)+kidsPerCabin);
     }
   }
 })();
