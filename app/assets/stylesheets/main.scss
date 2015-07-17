@@ -1,3 +1,17 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html, body {
+  font-family:Avenir Next, Verdana, Geneva, sans-serif;
+  button, p, div, table, td, span, textarea {
+    font-size: 12px;
+  }
+  h1 {
+    font-size: 17px;
+    margin-top: 5px;
+  }
+  h4 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+}
